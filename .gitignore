@@ -1,0 +1,21 @@
+# Power BI temporary & cache files
+*.tmp
+*.lock
+*.pbi
+~*
+
+# Database & Connection credentials / Sensitive data
+*.config
+*.env
+*.key
+*.pem
+*.credentials
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# SQL Server Temp / Log files
+*.ldf
+*.mdf
