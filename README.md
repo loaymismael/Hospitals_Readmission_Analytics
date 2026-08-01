@@ -44,10 +44,9 @@ This end-to-end data analytics project analyzes multi-center clinical data acros
 
 ---
 
-## 💻 SQL Query Examples
-
-### 1. Calculating Departmental Readmission Rate (Excluding Low Volume)
-```sql
+💻 SQL Query Examples
+1. Calculating Departmental Readmission Rate (Excluding Low Volume)
+SQL
 SELECT 
     medical_specialty,
     COUNT(encounter_id) AS total_encounters,
@@ -69,6 +68,9 @@ SELECT
     ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2) AS percentage_share
 FROM hospital_encounters
 GROUP BY admission_type_description;
+
+---
+
 🧮 DAX Measures Used
 مقتطف الرمز
 // 1. Total Encounters
@@ -88,6 +90,9 @@ DIVIDE(
     [Total Encounters], 
     0
 )
+
+---
+
 🛠️ Challenges & Solutions
 Challenge 1: Low-Sample Size Distortion (Small Specialties)
 
@@ -101,12 +106,16 @@ Issue: Vertical rotated text in vertical bar charts rendered physician specialty
 
 Solution: Transformed the visualization into a horizontal Clustered Bar Chart and filtered out Unspecified entries while preserving the dynamic Top N DAX behavior.
 
+---
+
 🎨 Dashboard Features & Data Model
 Interactive Filtering: Cross-filtering across Age Groups, Admission Types, and Medical Specialties.
 
 Responsive Visual Hierarchy: Dark executive header banner with KPI summary cards and balanced 2x2 grid layout.
 
 Data Model Architecture: Star Schema modeling connecting Fact table hospital_encounters to Dimension tables (Dim_Admission, Dim_Discharge, Dim_Age).
+
+---
 
 🩺 Strategic Recommendations for Healthcare Leadership
 Targeted Outpatient Management: Establish specialized 14-day post-discharge follow-up clinics for Nephrology and Family Practice departments.
@@ -115,10 +124,14 @@ High-Risk Cohort Monitoring: Deploy dedicated care coordinators for high-risk ag
 
 Emergency Handoff Optimization: Strengthen care coordination and transition programs for patients admitted via Emergency channels.
 
+---
+
 🔮 Future Improvements
 Predictive ML Modeling: Build a machine learning classification model (e.g., XGBoost / Logistic Regression) to predict 30-day readmission risk scores at the individual patient level.
 
 Financial Impact Modeling: Quantify CMS penalty costs avoided by reducing readmission rates by 1.5%–2.0%.
+
+---
 
 🚀 How to Run & Explore
 Clone this repository:
@@ -128,3 +141,8 @@ git clone https://github.com/loaymismael/Hospitals_Readmission_Analytics.git
 Open Hospital_Readmission_Analytics.pbix using Power BI Desktop.
 
 (Optional) Import raw_hospital_data.csv into SQL Server and execute Healthcare_Data_Cleaning.sql to view the ETL pipeline.
+
+📚 References & Standards
+Dataset Source: UCI Machine Learning Repository — Diabetes 130-US Hospitals Dataset (1999–2008).
+
+Clinical Quality Benchmark: CMS Hospital Readmissions Reduction Program (HRRP) Standards.
