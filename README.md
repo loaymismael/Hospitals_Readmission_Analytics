@@ -44,105 +44,92 @@ This end-to-end data analytics project analyzes multi-center clinical data acros
 
 ---
 
-💻 SQL Query Examples
-1. Calculating Departmental Readmission Rate (Excluding Low Volume)
-SQL
+## 💻 SQL Query Examples
+
+### 1. Calculating Departmental Readmission Rate
+\`\`\`sql
 SELECT 
     medical_specialty,
     COUNT(encounter_id) AS total_encounters,
     SUM(CASE WHEN readmitted = '<30' THEN 1 ELSE 0 END) AS readmits_30_days,
-    ROUND(
-        CAST(SUM(CASE WHEN readmitted = '<30' THEN 1 ELSE 0 END) AS FLOAT) / COUNT(encounter_id) * 100, 
-        2
-    ) AS readmit_rate_pct
+    ROUND(CAST(SUM(CASE WHEN readmitted = '<30' THEN 1 ELSE 0 END) AS FLOAT) / COUNT(encounter_id) * 100, 2) AS readmit_rate_pct
 FROM hospital_encounters
 WHERE medical_specialty IS NOT NULL AND medical_specialty != 'Unspecified'
 GROUP BY medical_specialty
 HAVING COUNT(encounter_id) >= 100
 ORDER BY readmit_rate_pct DESC;
-2. Emergency Readmission Percentage Breakdown
-SQL
+\`\`\`
+
+### 2. Emergency Readmission Percentage Breakdown
+\`\`\`sql
 SELECT 
     admission_type_description,
     COUNT(*) AS encounter_count,
     ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2) AS percentage_share
 FROM hospital_encounters
 GROUP BY admission_type_description;
+\`\`\`
 
----
+## 🧮 DAX Measures Used
 
-🧮 DAX Measures Used
-مقتطف الرمز
+\`\`\`dax
 // 1. Total Encounters
 Total Encounters = COUNT(hospital_encounters[encounter_id])
 
 // 2. 30-Day Readmission Count
-30-Day Readmits = 
-CALCULATE(
-    COUNT(hospital_encounters[encounter_id]),
-    hospital_encounters[readmitted] = "<30"
-)
+30-Day Readmits = CALCULATE(COUNT(hospital_encounters[encounter_id]), hospital_encounters[readmitted] = "<30")
 
 // 3. 30-Day Readmit Rate %
-30-Day Readmit Rate = 
-DIVIDE(
-    [30-Day Readmits], 
-    [Total Encounters], 
-    0
-)
+30-Day Readmit Rate = DIVIDE([30-Day Readmits], [Total Encounters], 0)
+\`\`\`
+
+## 🛠️ Challenges & Solutions
+
+* **Challenge 1: Low-Sample Size Distortion (Small Specialties)**
+  * **Issue:** Specialized clinics with 2 encounters and 1 readmission showed a misleading 50% readmission rate.
+  * **Solution:** Implemented dual-layer visual filtering in Power BI (`Total Encounters >= 100` and `Top N = 8`).
+
+* **Challenge 2: Unspecified Category & Cluttered Labels**
+  * **Issue:** Vertical rotated text in vertical bar charts rendered physician specialty names unreadable.
+  * **Solution:** Transformed the visualization into a horizontal **Clustered Bar Chart**.
 
 ---
 
-🛠️ Challenges & Solutions
-Challenge 1: Low-Sample Size Distortion (Small Specialties)
+## 🎨 Dashboard Features & Data Model
 
-Issue: Specialized clinics with 2 encounters and 1 readmission showed a misleading 50% readmission rate.
-
-Solution: Implemented dual-layer visual filtering in Power BI (Total Encounters >= 100 and Top N = 8), isolating high-volume clinical departments for actionable insights.
-
-Challenge 2: Unspecified Category & Cluttered Labels
-
-Issue: Vertical rotated text in vertical bar charts rendered physician specialty names unreadable.
-
-Solution: Transformed the visualization into a horizontal Clustered Bar Chart and filtered out Unspecified entries while preserving the dynamic Top N DAX behavior.
+* **Interactive Filtering:** Cross-filtering across Age Groups, Admission Types, and Medical Specialties.
+* **Responsive Visual Hierarchy:** Dark executive header banner with KPI summary cards.
+* **Data Model Architecture:** Star Schema modeling.
 
 ---
 
-🎨 Dashboard Features & Data Model
-Interactive Filtering: Cross-filtering across Age Groups, Admission Types, and Medical Specialties.
+## 🩺 Strategic Recommendations for Healthcare Leadership
 
-Responsive Visual Hierarchy: Dark executive header banner with KPI summary cards and balanced 2x2 grid layout.
-
-Data Model Architecture: Star Schema modeling connecting Fact table hospital_encounters to Dimension tables (Dim_Admission, Dim_Discharge, Dim_Age).
-
----
-
-🩺 Strategic Recommendations for Healthcare Leadership
-Targeted Outpatient Management: Establish specialized 14-day post-discharge follow-up clinics for Nephrology and Family Practice departments.
-
-High-Risk Cohort Monitoring: Deploy dedicated care coordinators for high-risk age brackets ([20–30) & [80–90)).
-
-Emergency Handoff Optimization: Strengthen care coordination and transition programs for patients admitted via Emergency channels.
+* **Targeted Outpatient Management:** Establish specialized 14-day post-discharge follow-up clinics.
+* **High-Risk Cohort Monitoring:** Deploy dedicated care coordinators for high-risk age brackets ([20–30) & [80–90)).
+* **Emergency Handoff Optimization:** Strengthen care coordination programs.
 
 ---
 
-🔮 Future Improvements
-Predictive ML Modeling: Build a machine learning classification model (e.g., XGBoost / Logistic Regression) to predict 30-day readmission risk scores at the individual patient level.
+## 🔮 Future Improvements
 
-Financial Impact Modeling: Quantify CMS penalty costs avoided by reducing readmission rates by 1.5%–2.0%.
+* **Predictive ML Modeling:** Build a machine learning classification model to predict 30-day readmission risk scores.
+* **Financial Impact Modeling:** Quantify CMS penalty costs avoided.
 
 ---
 
-🚀 How to Run & Explore
-Clone this repository:
+## 🚀 How to Run & Explore
 
-Bash
-git clone https://github.com/loaymismael/Hospitals_Readmission_Analytics.git
-Open Hospital_Readmission_Analytics.pbix using Power BI Desktop.
+1. Clone this repository:
+   \`\`\`bash
+   git clone [https://github.com/loaymismael/Hospitals_Readmission_Analytics.git](https://github.com/loaymismael/Hospitals_Readmission_Analytics.git)
+   \`\`\`
+2. Open `Hospital_Readmission_Analytics.pbix` using **Power BI Desktop**.
+3. Import `raw_hospital_data.csv` into **SQL Server** and execute `Healthcare_Data_Cleaning.sql`.
 
-(Optional) Import raw_hospital_data.csv into SQL Server and execute Healthcare_Data_Cleaning.sql to view the ETL pipeline.
+---
 
-📚 References & Standards
-Dataset Source: UCI Machine Learning Repository — Diabetes 130-US Hospitals Dataset (1999–2008).
+## 📚 References & Standards
 
-Clinical Quality Benchmark: CMS Hospital Readmissions Reduction Program (HRRP) Standards.
+* **Dataset Source:** UCI Machine Learning Repository — *Diabetes 130-US Hospitals Dataset (1999–2008)*.
+* **Clinical Quality Benchmark:** CMS Hospital Readmissions Reduction Program (HRRP) Standards.
