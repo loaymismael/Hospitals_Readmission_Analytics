@@ -1,7 +1,7 @@
 # 🏥 Hospital Readmission Analytics
 > **Executive Performance Dashboard & 30-Day Clinical Risk Evaluation**
 
-![Dashboard Overview](dashboard_overview.png)
+![Dashboard Overview](Dashboard_Overview.png)
 
 ---
 
