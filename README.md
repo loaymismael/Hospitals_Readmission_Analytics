@@ -43,11 +43,10 @@ This end-to-end data analytics project analyzes multi-center clinical data acros
 4. **Discharge Destinations:** Over **60K patients** were discharged home, while transfers to Skilled Nursing Facilities (SNF) represented 14K encounters, highlighting key operational handoff points for care coordination.
 
 ---
-
 ## 💻 SQL Query Examples
 
 ### 1. Calculating Departmental Readmission Rate
-\`\`\`sql
+```sql
 SELECT 
     medical_specialty,
     COUNT(encounter_id) AS total_encounters,
@@ -58,21 +57,16 @@ WHERE medical_specialty IS NOT NULL AND medical_specialty != 'Unspecified'
 GROUP BY medical_specialty
 HAVING COUNT(encounter_id) >= 100
 ORDER BY readmit_rate_pct DESC;
-\`\`\`
-
-### 2. Emergency Readmission Percentage Breakdown
-\`\`\`sql
+2. Emergency Readmission Percentage Breakdown
+SQL
 SELECT 
     admission_type_description,
     COUNT(*) AS encounter_count,
     ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2) AS percentage_share
 FROM hospital_encounters
 GROUP BY admission_type_description;
-\`\`\`
-
-## 🧮 DAX Measures Used
-
-\`\`\`dax
+🧮 DAX Measures Used
+مقتطف الرمز
 // 1. Total Encounters
 Total Encounters = COUNT(hospital_encounters[encounter_id])
 
@@ -81,8 +75,6 @@ Total Encounters = COUNT(hospital_encounters[encounter_id])
 
 // 3. 30-Day Readmit Rate %
 30-Day Readmit Rate = DIVIDE([30-Day Readmits], [Total Encounters], 0)
-\`\`\`
-
 ## 🛠️ Challenges & Solutions
 
 * **Challenge 1: Low-Sample Size Distortion (Small Specialties)**
