@@ -1,3 +1,4 @@
+Markdown
 # 🏥 Hospital Readmission Analytics
 > **Executive Performance Dashboard & 30-Day Clinical Risk Evaluation**
 
@@ -120,13 +121,10 @@ Predictive ML Modeling: Build a machine learning classification model (e.g., XGB
 Financial Impact Modeling: Quantify CMS penalty costs avoided by reducing readmission rates by 1.5%–2.0%.
 
 🚀 How to Run & Explore
-Clone this repository: git clone https://github.com/loaymismael/Hospitals_Readmission_Analytics.git
+Clone this repository:
 
+Bash
+git clone https://github.com/loaymismael/Hospitals_Readmission_Analytics.git
 Open Hospital_Readmission_Analytics.pbix using Power BI Desktop.
 
 (Optional) Import raw_hospital_data.csv into SQL Server and execute Healthcare_Data_Cleaning.sql to view the ETL pipeline.
-
-📚 References & Standards
-Dataset Source: UCI Machine Learning Repository — Diabetes 130-US Hospitals Dataset (1999–2008).
-
-Clinical Quality Benchmark: CMS Hospital Readmissions Reduction Program (HRRP) Standards.
