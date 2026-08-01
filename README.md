@@ -44,7 +44,7 @@ This end-to-end data analytics project analyzes multi-center clinical data acros
 
 ---
 💻 SQL Query Examples
-1. Calculating Departmental Readmission Rate
+### 1. Calculating Departmental Readmission Rate
 SELECT
 medical_specialty,
 COUNT(encounter_id) AS total_encounters,
@@ -56,13 +56,15 @@ GROUP BY medical_specialty
 HAVING COUNT(encounter_id) >= 100
 ORDER BY readmit_rate_pct DESC;
 
-2. Emergency Readmission Percentage Breakdown
+### 2. Emergency Readmission Percentage Breakdown
 SELECT
 admission_type_description,
 COUNT() AS encounter_count,
 ROUND(COUNT() * 100.0 / SUM(COUNT(*)) OVER(), 2) AS percentage_share
 FROM hospital_encounters
 GROUP BY admission_type_description;
+
+---
 
 🧮 DAX Measures Used
 // 1. Total Encounters
@@ -73,6 +75,8 @@ Total Encounters = COUNT(hospital_encounters[encounter_id])
 
 // 3. 30-Day Readmit Rate %
 30-Day Readmit Rate = DIVIDE([30-Day Readmits], [Total Encounters], 0)
+
+---
 
 🛠️ Challenges & Solutions
 Challenge 1: Low-Sample Size Distortion (Small Specialties)
@@ -87,12 +91,16 @@ Issue: Vertical rotated text in vertical bar charts rendered physician specialty
 
 Solution: Transformed the visualization into a horizontal Clustered Bar Chart.
 
+---
+
 🎨 Dashboard Features & Data Model
 Interactive Filtering: Cross-filtering across Age Groups, Admission Types, and Medical Specialties.
 
 Responsive Visual Hierarchy: Dark executive header banner with KPI summary cards.
 
 Data Model Architecture: Star Schema modeling.
+
+---
 
 🩺 Strategic Recommendations for Healthcare Leadership
 Targeted Outpatient Management: Establish specialized 14-day post-discharge follow-up clinics.
@@ -101,10 +109,14 @@ High-Risk Cohort Monitoring: Deploy dedicated care coordinators for high-risk ag
 
 Emergency Handoff Optimization: Strengthen care coordination programs.
 
+---
+
 🔮 Future Improvements
 Predictive ML Modeling: Build a machine learning classification model to predict 30-day readmission risk scores.
 
 Financial Impact Modeling: Quantify CMS penalty costs avoided.
+
+---
 
 🚀 How to Run & Explore
 Clone this repository: git clone https://github.com/loaymismael/Hospitals_Readmission_Analytics.git
