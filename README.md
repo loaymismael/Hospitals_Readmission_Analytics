@@ -60,7 +60,6 @@ WHERE medical_specialty IS NOT NULL AND medical_specialty != 'Unspecified'
 GROUP BY medical_specialty
 HAVING COUNT(encounter_id) >= 100
 ORDER BY readmit_rate_pct DESC;
-
 2. Emergency Readmission Percentage Breakdown
 SQL
 SELECT 
@@ -69,9 +68,7 @@ SELECT
     ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2) AS percentage_share
 FROM hospital_encounters
 GROUP BY admission_type_description;
-
 🧮 DAX Measures Used
-
 مقتطف الرمز
 // 1. Total Encounters
 Total Encounters = COUNT(hospital_encounters[encounter_id])
@@ -123,11 +120,11 @@ Predictive ML Modeling: Build a machine learning classification model (e.g., XGB
 Financial Impact Modeling: Quantify CMS penalty costs avoided by reducing readmission rates by 1.5%–2.0%.
 
 🚀 How to Run & Explore
-Clone this repository: git clone https://github.com/your-username/Hospital_Readmission_Analytics.git
+Clone this repository: git clone https://github.com/loaymismael/Hospitals_Readmission_Analytics.git
 
-Open hospital_readmission_analytics.pbix using Power BI Desktop.
+Open Hospital_Readmission_Analytics.pbix using Power BI Desktop.
 
-(Optional) Import raw_hospital_data.csv into SQL Server and execute healthcare_data_cleaning.sql to view the ETL pipeline.
+(Optional) Import raw_hospital_data.csv into SQL Server and execute Healthcare_Data_Cleaning.sql to view the ETL pipeline.
 
 📚 References & Standards
 Dataset Source: UCI Machine Learning Repository — Diabetes 130-US Hospitals Dataset (1999–2008).
