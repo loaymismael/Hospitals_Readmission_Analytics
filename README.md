@@ -46,38 +46,59 @@ This end-to-end data analytics project analyzes multi-center clinical data acros
 ## 💻 SQL Query Examples
 
 ### 1. Calculating Departmental Readmission Rate
-SELECT 
+
+```sql
+SELECT
     medical_specialty,
     COUNT(encounter_id) AS total_encounters,
     SUM(CASE WHEN readmitted = '<30' THEN 1 ELSE 0 END) AS readmits_30_days,
-    ROUND(CAST(SUM(CASE WHEN readmitted = '<30' THEN 1 ELSE 0 END) AS FLOAT) / COUNT(encounter_id) * 100, 2) AS readmit_rate_pct
+    ROUND(
+        CAST(SUM(CASE WHEN readmitted = '<30' THEN 1 ELSE 0 END) AS FLOAT)
+        / COUNT(encounter_id) * 100,
+        2
+    ) AS readmit_rate_pct
 FROM hospital_encounters
-WHERE medical_specialty IS NOT NULL AND medical_specialty != 'Unspecified'
+WHERE medical_specialty IS NOT NULL
+  AND medical_specialty != 'Unspecified'
 GROUP BY medical_specialty
 HAVING COUNT(encounter_id) >= 100
 ORDER BY readmit_rate_pct DESC;
+```
 
 ### 2. Emergency Readmission Percentage Breakdown
-SELECT 
+
+```sql
+SELECT
     admission_type_description,
     COUNT(*) AS encounter_count,
-    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2) AS percentage_share
+    ROUND(
+        COUNT(*) * 100.0 /
+        SUM(COUNT(*)) OVER(),
+        2
+    ) AS percentage_share
 FROM hospital_encounters
 GROUP BY admission_type_description;
-
+```
 ---
 
 ## 🧮 DAX Measures Used
 
-// 1. Total Encounters
-Total Encounters = COUNT(hospital_encounters[encounter_id])
+```DAX
+// Total Encounters
+Total Encounters =
+COUNT(hospital_encounters[encounter_id])
 
-// 2. 30-Day Readmission Count
-30-Day Readmits = CALCULATE(COUNT(hospital_encounters[encounter_id]), hospital_encounters[readmitted] = "<30")
+// 30-Day Readmission Count
+30-Day Readmissions =
+CALCULATE(
+    COUNT(hospital_encounters[encounter_id]),
+    hospital_encounters[readmitted] = "<30"
+)
 
-// 3. 30-Day Readmit Rate %
-30-Day Readmit Rate = DIVIDE([30-Day Readmits], [Total Encounters], 0)
-
+// 30-Day Readmission Rate
+30-Day Readmission Rate =
+DIVIDE([30-Day Readmissions], [Total Encounters], 0)
+```
 ---
 
 ## 🛠️ Challenges & Solutions
